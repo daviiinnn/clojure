@@ -90,6 +90,14 @@
   (if (<= x 1)
     1
     ((+ x (sum (dec x))))))
+  
+  (defn sumsu
+  [x]
+  (loop [l x
+         has 0]
+    (if (= l 0)
+      has
+      (recur (dec l) (+ l has)))))
 
 (defn facto
   [x]
@@ -124,14 +132,24 @@
       (recur (dec n)
              (*' res n)))))
 
-(defn kentoi
-  [x y]
-  (loop [runi x
-         aw y
-         frist []]
-    (if (= aw (- y 10))
-      frist
-      (recur (*' runi aw ) (dec aw) (conj frist (*' runi aw)) ))))
+(defn sasan
+  [x]
+  (loop [suu 0
+         pol 1
+         b []]
+    (if (= pol (+ x 1))
+      b
+      (recur (+ suu pol) (inc pol) (conj b (+ suu pol)))
+    )))
+
+(defn kentoa
+  [x]
+  (loop [hy 0
+         huhu 1
+         j '()]
+    (if (= huhu x)
+      j
+      (recur (sumsu huhu) (inc huhu) (cons hy j)))))
 
 
 ;; [[34,26],[12,25],[45,24],[43,23],[23,22],[20,20],[12,19],[32,18],[43,16],[234,15],[34,13],[54,12], [123,10],[321,9]]
@@ -144,3 +162,20 @@
 
 (def turunan
   (map #(bangsat % %2) [34 26] [12 25] [45 24]))
+
+
+(def certainty 5)
+
+(defn prime? [n]
+  (.isProbablePrime (BigInteger/valueOf n) certainty))
+
+(def pirimie
+  (take 100001
+        (filter prime?
+                (take-nth 2
+                          (range 1 Integer/MAX_VALUE)))))
+
+
+(def samboroa
+  (count (apply concat (map #(pa %) pirimie))))
+
