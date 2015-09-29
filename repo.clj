@@ -179,3 +179,43 @@
 (def samboroa
   (count (apply concat (map #(pa %) pirimie))))
 
+(defn palindrome? [g]
+  (= (reverse (str g) ) (seq (str g))))
+
+
+
+
+
+(defn iter-prime [x y]
+  (cond (= y x) true
+        (zero? (rem x y)) false
+        :else (iter-prime x (inc y))))
+
+
+
+
+
+(defn prima?
+  [x]
+  (let [akar (Math/sqrt x)
+        iter (fn iter [i]
+               (cond (> i akar) true
+                     (zero? (rem x i)) false
+                     :else (iter (+ i 2))))]
+    (cond (<= x 1) false
+          (= x 2) true
+          (even? x) false
+          :else (iter 3))))
+
+
+
+
+(defn cobalcm
+  [x & y]
+  (let [gcd (fn gcd [b & c]
+              (cond
+                (zero? b) c
+                (zero? c) b
+                :else (recur c (mod b c))))]
+    (/ (* x y) (gcd x y))))
+
