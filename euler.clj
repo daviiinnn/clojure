@@ -77,6 +77,15 @@
         (reduce + (range 0 x 5)))
      (reduce + (range 0 x 15))))
    
+(defn eul48
+  [x]
+  (loop [banjink x
+         
+         p []]
+    (if
+      (zero? banjink)
+      p
+      (recur (dec banjink) (conj p (kali banjink banjink))))))
 
 (def eul13
   (let [tai '(37107287533902102798797998220837590246510135740250
