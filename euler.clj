@@ -6,7 +6,6 @@
   (println "Hello, World!"))
 
 
-
 (defn prima?
   [x]
   (let [akar (Math/sqrt x)
@@ -18,6 +17,31 @@
           (= x 2) true
           (even? x) false
           :else (iter 3))))
+
+(defn primahh
+  [o]
+  (let [primx (fn primx
+                [x]
+                (let [akar (Math/sqrt x)
+                      iter (fn iter [i]
+                             (cond (> i akar) true
+                                   (zero? (rem x i)) false
+                                   :else (iter (+ i 2))))]
+                  (cond (<= x 1) false
+                        (= x 2) true
+                        (even? x) false
+
+                        :else (iter 3))))]
+    (take o (filter primx (range)))))
+
+(defn primake
+  [x]
+  (loop [pew 1]
+    (if (= x (->> (primahh pew)
+                  (count)))
+      (last (primahh pew))
+      (recur (inc pew)))))
+
 
 (defn kali
   [x y]
@@ -78,7 +102,16 @@
        (filter prima?)
        (reduce +)))
 
-
+(defn eul40
+  [a b c d e f g]
+  (* (last (take a (apply concat (map digit (range 1 1000000000000000000)))))
+     (last (take b (apply concat (map digit (range 1 10000000000000000000000)))))
+     (last (take c (apply concat (map digit (range 1 1000000000000000000000)))))
+     (last (take d (apply concat (map digit (range 1 9999999999999999999)))))
+     (last (take e (apply concat (map digit (range 1 88888888888888888)))))
+     (last (take f (apply concat (map digit (range 1 888888888888888888)))))
+     (last (take g (apply concat (map digit (range 1 977777777777779797)))))
+     ))
 
 
 (defn eul2
