@@ -18,6 +18,53 @@
           (= x 2) true
           (even? x) false
           :else (iter 3))))
+
+(defn kali
+  [x y]
+  (apply *' (repeat y x)))
+
+
+(def fibonacci (lazy-cat [1 1] (map +' fibonacci (rest fibonacci))))
+
+
+(defn fibo
+  [x]
+  (loop [pam 1
+         c []]
+    (if (<= x (last (take pam fibonacci)))
+      c
+      (recur (inc pam) (conj c (last (take pam fibonacci)))))))
+
+
+(defn digit
+  [d]
+  (map read-string (map str (str d))))
+
+
+(defn faktorial
+  [i]
+  (loop [n i
+         res 1]
+    (if (= n 1)
+      res
+      (recur (dec n)
+             (*' res n)))))
+
+
+;;--------------------------------------------------------------
+
+(defn eul25
+  [x]
+  (loop [mulai 4000]
+    (if
+      (= x (->> (take mulai fibonacci)
+                (last)
+                (digit)
+                (count)))
+      mulai
+      (recur (inc mulai)))))
+
+
 (defn eul7
   [o]
   (->> (range 1000000)
@@ -31,15 +78,14 @@
        (filter prima?)
        (reduce +)))
 
-(def fibonacci (lazy-cat [0 1] (map +' fibonacci (rest fibonacci)))) 
 
-(defn kali
-  [x y]
-  (apply *' (repeat y x)))
 
-(defn digit
-  [d]
-  (map read-string (map str (str d))))
+
+(defn eul2
+  [x]
+  (reduce + (filter even? (fibo x))))
+
+
 
 (defn eul16
   [x y]
@@ -47,14 +93,6 @@
        (digit)
        (reduce +')))
 
-(defn faktorial
-  [i]
-  (loop [n i
-         res 1]
-    (if (= n 1)
-      res
-      (recur (dec n)
-             (*' res n)))))
 
 (defn eul20
   [x]
