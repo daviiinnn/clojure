@@ -5,6 +5,11 @@
   []
   (println "Hello, World!"))
 
+(defn facto
+  [x]
+  (if (<= x 1)
+    1
+    (*' x (facto (dec x)))))
 
 (defn prima?
   [x]
@@ -59,11 +64,40 @@
       c
       (recur (inc pam) (conj c (last (take pam fibonacci)))))))
 
+(defn pa
+  [x g]
+  (loop [n x
+         t []]
+    (if (zero? n)
+      (if (zero? x)
+        [0]
+        t)
+      (recur (quot n g) (cons (mod n g) t)))))
 
 (defn digit
   [d]
   (map read-string (map str (str d))))
 
+(defn palindrome?1 [g]
+  (= (seq g ) (reverse g)))
+
+(defn palindrome?2 [g]
+  (= (reverse (str g) ) (seq (str g))))
+
+(defn palindromeanjing [x]
+  (let [palindrome (fn palindrome? [g]
+                     (= (reverse (str g) ) (seq (str g))))]
+    (loop [a 100
+           b []]
+      (if (= a x)
+        (sort (filter palindrome (apply concat b)))
+        (recur (inc a) (conj b (map #(* a %) (range a x))))))))
+
+
+(defn digitfactorials? [x]
+  (= x (->> (digit x)
+            (map facto)
+            (reduce +))))
 
 (defn faktorial
   [i]
@@ -76,6 +110,18 @@
 (defn factors [x] (map #(/ x %) (filter #(zero? (rem x %)) (range 10000 (inc x)))))
 
 ;;--------------------------------------------------------------
+
+(defn eul36 [x]
+  (->> (range x)
+       (filter palindrome?2)
+       (map #(pa % 2))
+       (filter palindrome?1)))
+(defn eul4 [x]
+  (last (palindromeanjing x )))
+
+(defn eul56 [x]
+  (reduce + (filter digitfactorials? (range x))))
+
 
 (defn eul56
   [x]
