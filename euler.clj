@@ -93,23 +93,96 @@
         (sort (filter palindrome (apply concat b)))
         (recur (inc a) (conj b (map #(* a %) (range a x))))))))
 
+(defn factors [n]
+  (filter #(zero? (rem n %)) (range 1 (inc (/ n 2)))))
 
 (defn digitfactorials? [x]
   (= x (->> (digit x)
             (map facto)
             (reduce +))))
 
-(defn faktorial
-  [i]
-  (loop [n i
-         res 1]
-    (if (= n 1)
-      res
-      (recur (dec n)
-             (*' res n)))))
-(defn factors [x] (map #(/ x %) (filter #(zero? (rem x %)) (range 10000 (inc x)))))
+(defn divisible [x]
+   (every? zero? (map #(rem x %) (range 1 21))))
 
+(defn loopy [x]
+  (loop [f 1 a 0 c []]
+    (if (= f (+ x 1))
+      c
+      (recur (inc f) (+ a f) (conj c (+ a f))))))
+
+(defn factorsa [n]
+  (into (sorted-set)
+        (mapcat (fn [x] [x (/ n x)])
+                (filter #(zero? (rem n %)) (range 1 (inc (Math/sqrt n)))) )))
+(def loopyaa
+  (loop [f 1 a 0 c []]
+    (if (= f 50000)
+      c
+      (recur (inc f) (+ a f) (conj c (+ a f))))))
+
+(defn prima?
+  [x]
+  (let [akar (Math/sqrt x)
+        iter (fn iter [i]
+               (cond (> i akar) true
+                     (zero? (rem x i)) false
+                     :else (iter (+ i 2))))]
+    (cond (<= x 1) false
+          (= x 2) true
+          (even? x) false
+          :else (iter 3))))
+
+
+(defn coba_gini? [x]
+  (>= (count (factorsa x)) 500 ))
+
+(defn combinatoric [n r]
+  (/ (facto n) (*' (facto r) (facto (-' n r)))))
+
+(def atas
+  (for [n (range 101) r (range 101) :while (< r n)] (combinatoric n r)))
+
+(defn collatz [n]
+  (if (even? n)
+    (/ n 2)
+    (inc (* 3 n))))
+
+
+(defn collati [y]
+  (loop [b y c []]
+    (if (= b 1)
+      (+ 1 (count c))
+      (recur (collatz b)
+             (conj c (collatz b))))))
+
+
+
+(defn cobaah [x]
+  (= x (->> (kali  x)
+             digit
+             count)))
+(defn capekgw [x]
+  (loop [n 1 c []]
+    (if (= n x)
+      c
+      (recur (inc n)  (conj c (filter #(= n %) (map #(->> (kali % n)
+                                                          digit
+                                                          count) (range 1 100))))))))
 ;;--------------------------------------------------------------
+
+(def eul14
+  (first
+    (apply max-key second
+           (map #(list % (collati %)) (range 14 1000000)))))
+
+
+
+(def eul63
+  (count (apply concat (capekgw 100))))
+
+
+(def eul53
+  (count (filter #(> % 1000000) atas)))
 
 (defn eul36 [x]
   (->> (range x)
@@ -206,7 +279,7 @@
 
 (defn eul20
   [x]
-  (->> (faktorial x)
+  (->> (facto x)
        (digit)
        (reduce +')))
 
