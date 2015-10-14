@@ -104,11 +104,29 @@
 (defn divisible [x]
    (every? zero? (map #(rem x %) (range 1 21))))
 
-(defn loopy [x]
+(defn triangle [x]
   (loop [f 1 a 0 c []]
     (if (= f (+ x 1))
       c
       (recur (inc f) (+ a f) (conj c (+ a f))))))
+
+(defn pentagonal [x]
+  (loop [f 1 a 4 b 1 c []]
+    (if (= f x)
+      c
+      (recur (inc f) (+ a 3) (+ a b) (conj c (+ a b))))))
+
+(defn pentagonal? [x]
+  (zero? (rem (+ 1 (Math/sqrt (+ 1 (* 24 x)))) 6)))
+
+(defn hexagonal [x]
+  (loop [f 1 a 5 b 1 c []]
+    (if (= f x)
+      c
+      (recur (inc f) (+ a 4) (+ a b) (conj c (+ a b))))))
+
+(defn hexagonal? [x]
+  (zero? (rem (+ 1 (Math/sqrt (+ 1 (* 8 x)))) 4)))
 
 (defn factorsa [n]
   (into (sorted-set)
@@ -169,6 +187,9 @@
                                                           digit
                                                           count) (range 1 100))))))))
 ;;--------------------------------------------------------------
+
+(def eul45
+  (filter pentagonal? (hexagonal 1000000)))
 
 (def eul14
   (first
