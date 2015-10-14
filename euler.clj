@@ -186,7 +186,15 @@
       (recur (inc n)  (conj c (filter #(= n %) (map #(->> (kali % n)
                                                           digit
                                                           count) (range 1 100))))))))
+
+(defn samaganih? [x]
+  (= x (reduce + (map #(kali % 5) (digit x)))))
+
+
 ;;--------------------------------------------------------------
+
+(def eul30
+  (reduce + (filter samaganih? (range 1 1000000))))
 
 (def eul45
   (filter pentagonal? (hexagonal 1000000)))
